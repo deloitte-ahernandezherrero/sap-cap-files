@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="sap.capire.media.MediaServer" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Media" EntityType="sap.capire.media.MediaServer.Media"/>
+                <EntitySet Name="Parent" EntityType="sap.capire.media.MediaServer.Parent">
+                    <NavigationPropertyBinding Path="media" Target="Media"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Media">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="content" Type="Edm.Stream"/>
+                <Property Name="mediaType" Type="Edm.String"/>
+                <Property Name="fileName" Type="Edm.String"/>
+                <Property Name="applicationName" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Parent">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="media" Type="sap.capire.media.MediaServer.Media">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="media_id" ReferencedProperty="id"/>
+                </NavigationProperty>
+                <Property Name="media_id" Type="Edm.Int32"/>
+            </EntityType>
+            <Annotations Target="sap.capire.media.MediaServer.Media/content">
+                <Annotation Term="Core.MediaType" Path="mediaType"/>
+            </Annotations>
+            <Annotations Target="sap.capire.media.MediaServer.Media/mediaType">
+                <Annotation Term="Core.IsMediaType" Bool="true"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

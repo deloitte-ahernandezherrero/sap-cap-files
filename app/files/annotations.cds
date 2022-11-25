@@ -1,0 +1,1 @@
+using sap.capire.media.MediaServer as service from '../../srv/file-service';
